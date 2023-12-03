@@ -1,0 +1,21 @@
+name: mylive_libraly_example
+description: Demonstrates how to use the mylive_libraly plugin.
+version: 1.0.0
+
+environment:
+  sdk: ">=2.17.1 <4.0.0"
+  flutter: ">=2.5.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  mylive_libraly:
+    path: ../
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
