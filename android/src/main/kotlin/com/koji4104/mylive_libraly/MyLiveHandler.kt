@@ -29,17 +29,21 @@ class MyLiveHandler(
     override fun onMethodCall(call: MethodCall, result: MethodChannel.Result) {
         when (call.method) {
             "create" -> {
+                var mode: Int = 0
                 try {
-                    var mode: Int = 0
                     if(call.argument<String>("mode")!=null)
                         mode = call.argument<String>("mode") as Int
                     controller?.dispose()
+                } catch (e: Exception) {
+                    //result.error("failed_to_create_dispose", e.message, null)
+                }
+                try {
                     controller = MyLiveController(
                         activity.applicationContext, textureRegistry, messenger, mode
                     )
                     result.success(mapOf("textureId" to controller!!.textureId))
                 } catch (e: Exception) {
-                    result.error("failed_to_create_live_stream", e.message, null)
+                    result.error("failed_to_create_controller", e.message, null)
                 }
             }
             "dispose" -> {
@@ -107,7 +111,10 @@ class MyLiveHandler(
                 }
             }
             "stopPreview" -> {
-                controller!!.stopPreview()
+                try {
+                    controller!!.stopPreview()
+                } catch (e: Exception) {
+                }
                 result.success(null)
             }
             "startStream" -> {
@@ -123,7 +130,7 @@ class MyLiveHandler(
                 result.success(null)
             }
             "isStreaming" -> {
-                result.success(mapOf("isStreaming" to controller!!.isStreaming))
+                result.success(mapOf("isStreaming" to controller!!.isStreaming()))
             }
             "getCameraPos" -> {
                 try {

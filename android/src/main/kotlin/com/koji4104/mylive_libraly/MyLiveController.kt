@@ -52,10 +52,13 @@ class MyLiveController(
     val streamer
         get() = srtStreamer
 
-    private var _isPreviewing = false
-    private var _isStreaming = false
-    val isStreaming: Boolean
-        get() = _isStreaming
+    var _isPreviewing = false
+    var _isStreaming = false
+
+    fun isStreaming(): Boolean {
+        if (isSrt) return srtStreamer.isConnected
+        return rtmpStreamer.isConnected
+    }
 
     private var eventSink: EventChannel.EventSink? = null
     private val eventChannel = EventChannel(messenger, "com.koji4104.mylive_libraly/events")
@@ -74,7 +77,7 @@ class MyLiveController(
 
     var videoConfig = SpVideoConfig()
         set(value) {
-            if (isStreaming) {
+            if (_isStreaming) {
                 throw UnsupportedOperationException("You have to stop streaming first")
             }
             eventSink?.success(
@@ -101,7 +104,7 @@ class MyLiveController(
 
     var audioConfig = SpAudioConfig()
         set(value) {
-            if (isStreaming) {
+            if (_isStreaming) {
                 throw UnsupportedOperationException("You have to stop streaming first")
             }
             if (isSrt) srtStreamer.configure(value)
@@ -154,17 +157,18 @@ class MyLiveController(
 
     fun dispose() {
         if (isSrt) {
+            srtStreamer.stopPreview()
             srtStreamer.stopStream()
             srtStreamer.disconnect()
-            srtStreamer.stopPreview()
             flutterTexture.release()
         } else {
+            rtmpStreamer.stopPreview()
             rtmpStreamer.stopStream()
             rtmpStreamer.disconnect()
-            rtmpStreamer.stopPreview()
             flutterTexture.release()
         }
     }
+
     fun startStream() {
         if (isSrt) {
             runBlocking {
@@ -180,7 +184,7 @@ class MyLiveController(
             runBlocking {
                 try {
                     var url1 = url!!
-                    if(!key.isNullOrEmpty()) url1 += "/" + key!!
+                    if (!key.isNullOrEmpty()) url1 += "/" + key!!
                     rtmpStreamer.startStream(url1)
                     _isStreaming = true
                 } catch (e: Exception) {

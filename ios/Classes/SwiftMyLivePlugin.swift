@@ -122,7 +122,7 @@ public class SwiftMyLivePlugin: NSObject, FlutterPlugin {
                 result(FlutterError(code: "missing_live_stream", message: "Live stream must exist at this point", details: nil))
                 return
             }
-            result(["isStreaming": flutterView.isStreaming])
+            result(["isStreaming": flutterView.isStreaming()])
         case "getCameraPos":
             guard let flutterView = flutterView else {
                 result(FlutterError(code: "missing_live_stream", message: "Live stream must exist at this point", details: nil))

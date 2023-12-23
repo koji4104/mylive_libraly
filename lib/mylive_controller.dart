@@ -46,6 +46,7 @@ class MyLiveController {
     Function(PlatformException)? onError,
   }) async {
     _isInitialized = false;
+    await stopPreview().catchError((e) {});
 
     _eventsListeners.add(
       MyLiveEventsListener(
@@ -58,7 +59,9 @@ class MyLiveController {
 
     _mode = (url.contains('srt://')) ? 0 : 1;
     _textureId = await _platform.create(_mode) ?? -1;
+
     print('-- initialize() _textureId=${_textureId}');
+    if (_textureId < 0) throw Exception("isInitialized error");
 
     _eventSubscription = _platform.liveStreamingEventsFor(_textureId).listen(
           _eventListener,
@@ -79,12 +82,19 @@ class MyLiveController {
     if (audioConfig == null) audioConfig = MyLiveAudioConfig();
     if (cameraPos == null) cameraPos = 0;
 
-    await setVideoConfig(videoConfig);
+    await setVideoConfig(videoConfig).onError((error, stackTrace) {
+      print('-- setVideoConfig $error');
+      return;
+    });
     await setAudioConfig(audioConfig).onError((error, stackTrace) {
       print('-- setAudioConfig $error');
+      return;
     });
     await setCameraPos(cameraPos);
-    await startPreview();
+    await startPreview().onError((error, stackTrace) {
+      print('-- startPreview $error');
+      return;
+    });
     _isInitialized = true;
     return;
   }

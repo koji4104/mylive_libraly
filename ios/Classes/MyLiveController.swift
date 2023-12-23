@@ -4,6 +4,18 @@ import HaishinKit
 import UIKit
 import VideoToolbox
 
+/*
+extension RTMPStream {
+    public func isStreaming() {
+        self.readyState == .publishing
+    }
+}
+extension SRTStream {
+    public func isStreaming() -> Bool {
+        return self.readyState == .publishing
+    }
+}
+*/
 public class MyLiveController {
     var mode = 0
     var isSrt: Bool { get { return mode == 0 }}
@@ -505,6 +517,14 @@ public class MyLiveController {
             r = Int(self.rtmpStream.currentFPS)
         }
         return r
+    }
+
+    func isStreaming() -> Bool {
+      if isSrt {
+          return self.srtConnection.connected
+      } else {
+          return self.rtmpStream.currentFPS > 0
+      }
     }
 
     @objc

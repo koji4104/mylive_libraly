@@ -21,7 +21,6 @@ class MyLiveView: NSObject {
     var textureId: Int64 {
         previewTexture.textureId
     }
-    var isStreaming = false
 
     var videoConfig: MyLiveVideoConfig {
         get {
@@ -71,7 +70,7 @@ class MyLiveView: NSObject {
     }
     
     func dispose() {
-        isStreaming = false
+        //isStreaming = false
         controller.stopStream()
         controller.stopPreview()
         previewTexture.dispose()
@@ -91,16 +90,20 @@ class MyLiveView: NSObject {
 
     func startStream() throws {
         try controller.startStream()
-        isStreaming = true
+        //isStreaming = true
     }
 
     func stopStream() {
-        isStreaming = false
+        //isStreaming = false
         controller.stopStream()
     }
 
     func getCurrentFps() -> Int {
         return controller.getCurrentFps()
+    }
+
+    func isStreaming() -> Bool {
+        return controller.isStreaming()
     }
 }
 
@@ -118,19 +121,19 @@ extension MyLiveView: FlutterStreamHandler {
 extension MyLiveView: MyLiveDelegate {
     /// Called when the connection to the rtmp server is successful
     func connectionSuccess() {
-        self.isStreaming = true
+        //self.isStreaming = true
         self.eventSink?(["type": "connected"])
     }
 
     /// Called when the connection to the rtmp server failed
     func connectionFailed(_ code: String) {
-        self.isStreaming = false
+        //self.isStreaming = false
         self.eventSink?(["type": "connectionFailed", "message": "Failed to connect"])
     }
 
     /// Called when the connection to the rtmp server is closed
     func disconnection() {
-        self.isStreaming = false
+        //self.isStreaming = false
         self.eventSink?(["type": "disconnected"])
     }
 
