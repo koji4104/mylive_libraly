@@ -95,14 +95,14 @@ public class MyLiveController {
         } else {
             self.rtmpConnection.addEventListener(.rtmpStatus, selector: #selector(self.rtmpStatusHandler), observer: self)
             self.rtmpConnection.addEventListener(.ioError, selector: #selector(self.rtmpErrorHandler), observer: self)
-            NotificationCenter.default.addObserver(
-                self,
-                selector: #selector(self.orientationDidChange(_:)),
-                name: UIDevice.orientationDidChangeNotification,
-                object: nil
-            )
         }
 
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(self.orientationDidChange(_:)),
+            name: UIDevice.orientationDidChangeNotification,
+            object: nil
+        )
     }
 
     /// Creates a new Stream object with a NetStreamDrawable
@@ -373,7 +373,6 @@ public class MyLiveController {
             bitRate: audioConfig.bitrate
             //format: .aac
         )
-
         self.isAudioConfigured = true
         */
     }
