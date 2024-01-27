@@ -73,12 +73,24 @@ abstract class MyLivePlatform extends PlatformInterface {
     throw UnimplementedError('setCameraPos() has not been implemented.');
   }
 
+  Future<void> setCameraZoom(int zoom) {
+    throw UnimplementedError('setCameraZoom() has not been implemented.');
+  }
+
   Future<int?> getCurrentFps() {
     throw UnimplementedError('getCurrentFps() has not been implemented.');
   }
 
   Future<Size?> getVideoSize() {
     throw UnimplementedError('getVideoSize() has not been implemented.');
+  }
+
+  Future<void> startPlayback() {
+    throw UnimplementedError('startPlayback() has not been implemented.');
+  }
+
+  Future<void> stopPlayback() {
+    throw UnimplementedError('stopPlayback() has not been implemented.');
   }
 
   /// Returns a Stream of [LiveStreamingEvent]s.

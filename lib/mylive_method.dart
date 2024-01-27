@@ -99,6 +99,11 @@ class MyLiveChannel extends MyLivePlatform {
   }
 
   @override
+  Future<void> setCameraZoom(int zoom) {
+    return _channel.invokeMethod('setCameraZoom', <String, dynamic>{'zoom': zoom});
+  }
+
+  @override
   Future<int?> getCurrentFps() async {
     final Map<dynamic, dynamic>? reply = await _channel.invokeMethod('getCurrentFps') as Map;
     return reply!['fps']! as int;
@@ -112,6 +117,16 @@ class MyLiveChannel extends MyLivePlatform {
     } else {
       return null;
     }
+  }
+
+  @override
+  Future<void> startPlayback() async {
+    return _channel.invokeMethod('startPlayback');
+  }
+
+  @override
+  Future<void> stopPlayback() async {
+    return _channel.invokeMethod('stopPlayback');
   }
 
   /// Builds the preview widget.

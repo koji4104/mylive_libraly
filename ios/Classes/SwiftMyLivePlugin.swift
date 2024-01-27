@@ -141,6 +141,18 @@ public class SwiftMyLivePlugin: NSObject, FlutterPlugin {
             }
             flutterView.cameraPos = cameraPos
             result(nil)
+        case "setCameraZoom":
+            guard let flutterView = flutterView else {
+                result(FlutterError(code: "missing_live_stream", message: "Live stream must exist at this point", details: nil))
+                return
+            }
+            guard let args = call.arguments as? [String: Any],
+                let zoom = args["zoom"] as? Int else {
+                result(FlutterError(code: "invalid_parameter", message: "Invalid camera zoom", details: nil))
+                return
+            }
+            flutterView.setCameraZoom(zoom: zoom)
+            result(nil)
         case "setMute":
             guard let flutterView = flutterView else {
                 result(FlutterError(code: "missing_live_stream", message: "Live stream must exist at this point", details: nil))
@@ -159,6 +171,28 @@ public class SwiftMyLivePlugin: NSObject, FlutterPlugin {
                 return
             }
             result(["fps": flutterView.getCurrentFps()])
+        case "startPlayback":
+            guard let flutterView = flutterView else {
+                result(FlutterError(code: "missing_live_stream", message: "Live stream must exist at this point", details: nil))
+                return
+            }
+            do {
+                try flutterView.startPlayback()
+                result(nil)
+            } catch {
+                result(FlutterError(code: "missing_live_stream", message: error.localizedDescription, details: nil))
+            }
+        case "stopPlayback":
+            guard let flutterView = flutterView else {
+                result(FlutterError(code: "missing_live_stream", message: "Live stream must exist at this point", details: nil))
+                return
+            }
+            do {
+                try flutterView.stopPlayback()
+                result(nil)
+            } catch {
+                result(FlutterError(code: "missing_live_stream", message: error.localizedDescription, details: nil))
+            }
         default:
             result(FlutterMethodNotImplemented)
         }

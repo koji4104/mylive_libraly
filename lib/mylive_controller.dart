@@ -150,8 +150,24 @@ class MyLiveController {
     return _platform.setCameraPos(pos);
   }
 
+  /// Zoom 10 to 40. 10=100%
+  Future<void> setCameraZoom(int zoom) {
+    if (zoom < 10)
+      zoom = 10;
+    else if (zoom > 40) zoom = 40;
+    return _platform.setCameraZoom(zoom);
+  }
+
   Future<int> getCurrentFps() async {
     return await _platform.getCurrentFps() ?? 0;
+  }
+
+  Future<void> startPlayback() async {
+    return await _platform.startPlayback();
+  }
+
+  Future<void> stopPlayback() async {
+    return await _platform.stopPlayback();
   }
 
   /// Builds the preview widget.

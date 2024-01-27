@@ -68,7 +68,11 @@ class MyLiveView: NSObject {
             }
         }
     }
-    
+
+    func setCameraZoom(zoom: Int) {
+        controller.zoomRatio = CGFloat(zoom) / 10
+    }
+
     func dispose() {
         //isStreaming = false
         controller.stopStream()
@@ -90,12 +94,18 @@ class MyLiveView: NSObject {
 
     func startStream() throws {
         try controller.startStream()
-        //isStreaming = true
     }
 
     func stopStream() {
-        //isStreaming = false
         controller.stopStream()
+    }
+
+    func startPlayback() throws {
+        try controller.startPlayback()
+    }
+
+    func stopPlayback() {
+        controller.stopPlayback()
     }
 
     func getCurrentFps() -> Int {

@@ -13,12 +13,15 @@ import io.flutter.view.TextureRegistry
 import io.github.thibaultbee.streampack.data.AudioConfig as SpAudioConfig
 import io.github.thibaultbee.streampack.data.VideoConfig as SpVideoConfig
 import io.github.thibaultbee.streampack.error.StreamPackError
-import io.github.thibaultbee.streampack.ext.rtmp.streamers.CameraRtmpLiveStreamer
 import io.github.thibaultbee.streampack.listeners.OnConnectionListener
 import io.github.thibaultbee.streampack.listeners.OnErrorListener
 import io.github.thibaultbee.streampack.utils.*
-import kotlinx.coroutines.runBlocking
+import io.github.thibaultbee.streampack.ext.rtmp.streamers.CameraRtmpLiveStreamer
 import io.github.thibaultbee.streampack.ext.srt.streamers.CameraSrtLiveStreamer
+import kotlinx.coroutines.runBlocking
+
+//Note
+//https://github.com/ThibaultBee/StreamPack/blob/main/extensions/srt/src/main/java/io/github/thibaultbee/streampack/ext/srt/streamers/CameraSrtLiveStreamer.kt
 
 class MyLiveController(
     private val context: Context,
@@ -155,6 +158,11 @@ class MyLiveController(
             else rtmpStreamer.camera = cameraList[0]
         }
 
+    fun setCameraZoom(zoom: Float) {
+        if (isSrt) srtStreamer.settings.camera.zoom.zoomRatio = zoom
+        else rtmpStreamer.settings.camera.zoom.zoomRatio = zoom
+    }
+
     fun dispose() {
         if (isSrt) {
             srtStreamer.stopPreview()
@@ -202,6 +210,19 @@ class MyLiveController(
         } else {
             rtmpStreamer.stopStream()
             rtmpStreamer.disconnect()
+        }
+    }
+
+    fun startPlayback() {
+        if (isSrt) {
+        } else {
+        }
+    }
+
+    fun stopPlayback() {
+        _isStreaming = false
+        if (isSrt) {
+        } else {
         }
     }
 

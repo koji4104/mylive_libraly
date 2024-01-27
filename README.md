@@ -1,7 +1,8 @@
 
 # mylive_libraly
 
-― mylive_libraly is a library for video streaming using SRT and RTMP.
+mylive_libraly is a flutter library for video streaming using SRT and RTMP.
+This library is used in Its my Live.
 
 # Getting started
 
@@ -29,7 +30,7 @@ import 'package:mylive_libraly/mylive_libraly.dart';
 
       _controller.initialize(
       cameraPosition: 1,
-      url: 'srt://10.221.58.8:3000',
+      url: 'srt://10.221.58.8:5000',
       onConnected: () {
         print('---- onConnected');
       },
@@ -48,13 +49,12 @@ import 'package:mylive_libraly/mylive_libraly.dart';
 
 # Plugins
 
-srt_live_stream Flutter live stream library is using external native library:
+mylive_libraly Flutter live stream library is using external native library:
 
-| Plugin     | README       |
-|------------|--------------|
-| StreamPack | [StreamPack] |
-| HaishinKit | [HaishinKit] |
-
+|OS |Plugin |README |
+|--|--|--|
+|Android |StreamPack | [StreamPack] |
+|iOS |HaishinKit | [HaishinKit] |
 
 [StreamPack]: <https://github.com/ThibaultBee/StreamPack>
 

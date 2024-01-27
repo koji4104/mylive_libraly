@@ -129,6 +129,18 @@ class MyLiveHandler(
                 controller!!.stopStream()
                 result.success(null)
             }
+            "startPlayback" -> {
+                try {
+                    controller!!.startPlayback()
+                    result.success(null)
+                } catch (e: Exception) {
+                    result.error("failed_to_startPlayback", e.message, null)
+                }
+            }
+            "stopPlayback" -> {
+                controller!!.stopPlayback()
+                result.success(null)
+            }
             "isStreaming" -> {
                 result.success(mapOf("isStreaming" to controller!!.isStreaming()))
             }
@@ -148,6 +160,21 @@ class MyLiveHandler(
                 }
                 controller!!.cameraPos = cameraPos
                 result.success(null)
+            }
+            "setCameraZoom" -> {
+                val cameraZoom = try {
+                    ((call.arguments as Map<*, *>)["zoom"] as Int)
+                } catch (e: Exception) {
+                    result.error("invalid_parameter", "Invalid camera zoom", e)
+                    return
+                }
+                try {
+                    var fzoom = (cameraZoom.toFloat() / 10.0).toFloat()
+                    controller!!.setCameraZoom(fzoom)
+                    result.success(null)
+                } catch (e: Exception) {
+                    result.error("failed_to_set_camera_zoom", e.message, null)
+                }
             }
             "setMute" -> {
                 val isMuted = try {

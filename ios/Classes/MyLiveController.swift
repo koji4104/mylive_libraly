@@ -4,18 +4,6 @@ import HaishinKit
 import UIKit
 import VideoToolbox
 
-/*
-extension RTMPStream {
-    public func isStreaming() {
-        self.readyState == .publishing
-    }
-}
-extension SRTStream {
-    public func isStreaming() -> Bool {
-        return self.readyState == .publishing
-    }
-}
-*/
 public class MyLiveController {
     var mode = 0
     var isSrt: Bool { get { return mode == 0 }}
@@ -394,20 +382,31 @@ public class MyLiveController {
             }
         }
         set(newValue) {
-            /*
-            guard let device = rtmpStream.videoCapture(for: 0)?.device, newValue >= 1,
-                  newValue < device.activeFormat.videoMaxZoomFactor else
-            {
-                return
+            if isSrt {
+                guard let device = srtStream.videoCapture(for: 0)?.device, newValue >= 1,
+                      newValue < device.activeFormat.videoMaxZoomFactor else {
+                    return
+                }
+                do {
+                    try device.lockForConfiguration()
+                    device.ramp(toVideoZoomFactor: newValue, withRate: 5.0)
+                    device.unlockForConfiguration()
+                } catch let error as NSError {
+                    print("Error while locking device for zoom ramp: \(error)")
+                }
+            } else {
+                guard let device = rtmpStream.videoCapture(for: 0)?.device, newValue >= 1,
+                      newValue < device.activeFormat.videoMaxZoomFactor else {
+                    return
+                }
+                do {
+                    try device.lockForConfiguration()
+                    device.ramp(toVideoZoomFactor: newValue, withRate: 5.0)
+                    device.unlockForConfiguration()
+                } catch let error as NSError {
+                    print("Error while locking device for zoom ramp: \(error)")
+                }
             }
-            do {
-                try device.lockForConfiguration()
-                device.ramp(toVideoZoomFactor: newValue, withRate: 5.0)
-                device.unlockForConfiguration()
-            } catch let error as NSError {
-                print("Error while locking device for zoom ramp: \(error)")
-            }
-            */
         }
     }
 
@@ -443,6 +442,28 @@ public class MyLiveController {
             if isConnected {
                 self.delegate?.disconnection()
             }
+        }
+    }
+
+    public func startPlayback() {
+        if isSrt {
+            var url1 = url!
+            if (key != nil && key! != "") { url1 += "?passphrase=" + key! }
+            print("-- url1=\(url1)")
+            self.srtStream.lockQueue.sync {
+                srtConnection.open(URL(string: url1))
+                srtStream.play("")
+                self.delegate?.connectionSuccess()
+            }
+        } else {
+        }
+    }
+
+    public func stopPlayback() {
+        if isSrt {
+            self.srtStream.close()
+            self.srtConnection.close()
+        } else {
         }
     }
 
