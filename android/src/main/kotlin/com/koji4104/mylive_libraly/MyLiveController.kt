@@ -148,6 +148,7 @@ class MyLiveController(
             }
 
         set(value) {
+            /* 2025/03
             val cameraList = when (value) {
                 "back" -> context.getBackCameraList()
                 "front" -> context.getFrontCameraList()
@@ -156,6 +157,7 @@ class MyLiveController(
             }
             if (isSrt) srtStreamer.camera = cameraList[0]
             else rtmpStreamer.camera = cameraList[0]
+            */
         }
 
     fun setCameraZoom(zoom: Float) {
@@ -164,6 +166,7 @@ class MyLiveController(
     }
 
     fun dispose() {
+        /* 2025/03
         if (isSrt) {
             srtStreamer.stopPreview()
             srtStreamer.stopStream()
@@ -175,6 +178,7 @@ class MyLiveController(
             rtmpStreamer.disconnect()
             flutterTexture.release()
         }
+        */
     }
 
     fun startStream() {
@@ -203,6 +207,7 @@ class MyLiveController(
     }
 
     fun stopStream() {
+        /* 2025/03
         _isStreaming = false
         if (isSrt) {
             srtStreamer.stopStream()
@@ -211,6 +216,7 @@ class MyLiveController(
             rtmpStreamer.stopStream()
             rtmpStreamer.disconnect()
         }
+        */
     }
 
     fun startPlayback() {

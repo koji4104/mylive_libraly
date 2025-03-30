@@ -75,8 +75,7 @@ class _MyLivePreviewState extends State<MyLivePreview> {
             child: Stack(
               fit: StackFit.expand,
               children: [
-                _wrapInRotatedBox(
-                    orientation: orientation, child: widget.controller.buildPreview()),
+                _wrapInRotatedBox(orientation: orientation, child: widget.controller.buildPreview()),
                 widget.child ?? Container(),
               ],
             ),
@@ -98,8 +97,7 @@ class _MyLivePreviewState extends State<MyLivePreview> {
   }
 
   bool _isLandscape(NativeDeviceOrientation orientation) {
-    return [NativeDeviceOrientation.landscapeLeft, NativeDeviceOrientation.landscapeRight]
-        .contains(orientation);
+    return [NativeDeviceOrientation.landscapeLeft, NativeDeviceOrientation.landscapeRight].contains(orientation);
   }
 
   int _getQuarterTurns(NativeDeviceOrientation orientation) {
@@ -118,7 +116,6 @@ class _MyLivePreviewState extends State<MyLivePreview> {
     if (size != null) {
       newAspectRatio = size.aspectRatio;
     } else {
-      //newAspectRatio = 1.0;
       newAspectRatio = 1.77;
     }
 

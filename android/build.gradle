@@ -3,15 +3,15 @@ version '1.0-SNAPSHOT'
 
 buildscript {
     ext {
-        kotlin_version = '1.8.0'
-        streamPackVersion = '2.5.2'
+        kotlin_version = '1.9.22'
+        streamPackVersion = '2.6.1'
     }
     repositories {
         google()
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.0.4'
+        classpath 'com.android.tools.build:gradle:8.7.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
@@ -27,19 +27,28 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion 33
+    namespace = "com.koji4104.mylive_libraly"
+    compileSdk = 35
+    ndkVersion = "27.0.12077973"
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_17
+    }
     defaultConfig {
-        minSdkVersion 21
+        minSdk = 28
     }
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
+    //implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    //implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    //implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.10.1'
     implementation "io.github.thibaultbee:streampack:$streamPackVersion"
     implementation "io.github.thibaultbee:streampack-extension-rtmp:$streamPackVersion"
     implementation "io.github.thibaultbee:streampack-extension-srt:$streamPackVersion"

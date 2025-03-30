@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:meta/meta.dart';
+import 'dart:developer';
 import 'mylive_config.dart';
 import 'mylive_platform.dart';
 
@@ -60,7 +61,7 @@ class MyLiveController {
     _mode = (url.contains('srt://')) ? 0 : 1;
     _textureId = await _platform.create(_mode) ?? -1;
 
-    print('-- initialize() _textureId=${_textureId}');
+    log('initialize() _textureId=${_textureId}');
     if (_textureId < 0) throw Exception("isInitialized error");
 
     _eventSubscription = _platform.liveStreamingEventsFor(_textureId).listen(
