@@ -4,7 +4,7 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'mylive_libraly'
-  s.version          = '0.1.0'
+  s.version          = '0.3.0'
   s.summary          = 'A new flutter plugin project.'
   s.description      = 'A new flutter plugin project.'
   s.homepage         = 'http://example.com'
@@ -14,7 +14,7 @@ Pod::Spec.new do |s|
   s.source_files = 'Classes/**/*'
   s.dependency 'Flutter'
   s.dependency 'HaishinKit', "1.6.0"
-  s.platform = :ios, '12.0'
+  s.platform = :ios, '16.0'
   s.vendored_frameworks = 'Vendor/libsrt.xcframework'
 
   # Flutter.framework does not contain a i386 slice.

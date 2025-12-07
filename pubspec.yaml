@@ -1,6 +1,6 @@
 name: mylive_libraly
 description: Flutter SRT and RTMP live streaming.
-version: 0.2.0
+version: 0.3.0
 repository: https://github.com/koji4104/mylive_libraly
 
 environment:
